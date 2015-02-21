@@ -2,6 +2,7 @@
 import scrapy
 from scrapy.shell import inspect_response
 from landmarks.items import LandmarksItem
+from landmarks.coordinates import latitude, longitude
 
 class LandmarksSpider(scrapy.Spider):
     name = "Landmarks"
@@ -18,5 +19,8 @@ class LandmarksSpider(scrapy.Spider):
             i['country'] = data[2]
             i['region'] = data[4]
             i['url'] = response.url
+            print data[6]
             i['coordinates'] = data[6]
+            i['latitude'] = latitude(data[6])
+            i['longitude'] = longitude(data[6])
             yield i

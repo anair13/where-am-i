@@ -14,7 +14,7 @@ class LandmarksItem(scrapy.Item):
     country = scrapy.Field()
     region = scrapy.Field()
     coordinates = scrapy.Field()
-    latitide = scrapy.Field()
+    latitude = scrapy.Field()
     longitude = scrapy.Field()
     caption = scrapy.Field()
     url = scrapy.Field()
