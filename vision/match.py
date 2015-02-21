@@ -41,6 +41,11 @@ def match(features_1, features_2):
 def correlation(features_1, features_2):
     return sum(match(features_1, features_2) > 0)
 
+def get_normalized_features(filename):
+    f = detect.get_features(filename)
+    f_normalized = np.array([v/np.linalg.norm(v) for v in f[1]])
+    return (f_normalized, f_normalized.T)
+
 if __name__ == "__main__":
     names = ["img/test.jpg", "img/clock_tower_2.jpg", "img/campanile_2.jpg"]
     features = [detect.get_features(f) for f in names]
