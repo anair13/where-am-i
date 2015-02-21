@@ -4,25 +4,23 @@ import glob
 import detect
 import numpy as np
 import numpy.lib.scimath as npmath
-import cPickle
 import cv2
+import db
 
 def process_library(ims = 'library/*'):
-    images = glob.glob(ims) # assume locations are encoded in these image filenames
+    image_names = glob.glob(ims) # assume locations are encoded in these image filenames
 
     norm_features = []
-    for name in images:
+    for name in image_names:
         print("extracting features of " + name)
         f = detect.get_features(name)
         f_normalized = np.array([v/np.linalg.norm(v) for v in f[1]])
         norm_features.append((f_normalized, f_normalized.T))
 
-    tagged_features = list(zip(images, norm_features))
-
-    cPickle.dump(tagged_features, open('library.features', 'w+'))
-
-def load_library(library_file = 'library.features'):
-    return cPickle.load(open(library_file))
+    for name, feature in zip(image_names, norm_features):
+        print "writing " + name + " into mongo"
+        metadata = {"name": name}
+        db.write_item(feature, metadata)
 
 if __name__ == "__main__":
     process_library()

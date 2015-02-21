@@ -1,5 +1,6 @@
 import library
 import match
+import db
 
 def get_location(filename):
     """Extracts latitude, longitude, angle from filename like 123.01_54.64_330.jpg"""
@@ -11,10 +12,11 @@ def max_index(values):
     return max(xrange(len(values)),key=values.__getitem__)
 
 def find_match(filename):
-    names, lib_features = zip(*library.load_library())
+    feature_iterator = db.get_all_images()
     x = match.get_normalized_features(filename)
-    matches = [match.correlation(x, y) for y in lib_features]
-    return names[max_index(matches)]
+    matches = [(match.correlation(x, y), metaID) for y, metaID in feature_iterator]
+    correlation, metaID = max(matches)
+    return db.get_meta(metaID)
 
 if __name__ == "__main__":
     print get_location("123.01_54.64_330.jpg")
