@@ -10,7 +10,7 @@ def match_oneway(features_1, features_2):
     f1 = features_1
     f2 = features_2
 
-    ratio = 0.8
+    ratio = 0.8 # higher number means more matches
     size = f1.shape[0]
 
     scores = np.zeros((size, 1), 'int')
