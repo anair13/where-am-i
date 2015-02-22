@@ -22,8 +22,9 @@ def upload_file():
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            match = locate.find_match(filename)
+            path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(path)
+            match = locate.find_match(path)
             return jsonify(**match)
     return '''
     <!doctype html>
