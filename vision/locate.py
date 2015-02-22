@@ -38,12 +38,15 @@ def find_match(filename):
     return db.get_meta(metaID)
 
 if __name__ == "__main__":
-    print get_location("123.01_54.64_330.jpg")
-    for name in glob.glob("img/*.jpg"):
-        des1 = detect.get_descriptors(name)
-        # for img in glob.glob("img/*/*.jpg"):
-        #     des2 = detect.get_descriptors(img)
-        #     print name, img, match.correlation_files(des1, des2)
-        print name
-        print find_match(name)
+    for name in glob.glob("img/*.jpg") + ["img/liberty.png"]:
+        # des1 = detect.get_descriptors(name)
+        # for folder in glob.glob("img/*/"):
+        #     scores = []
+        #     for img in glob.glob(folder + "*"):
+        #         des2 = detect.get_descriptors(img)
+        #         x = match.correlation(des1, des2)
+        #         scores.append(x)
+        #     scores.sort()
+        #     print name, folder, scores
+        print name, print find_match(name)
         print "---"

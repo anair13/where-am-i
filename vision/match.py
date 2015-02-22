@@ -43,8 +43,8 @@ def _correlation(features_1, features_2):
 
 def correlation(des1, des2):
     FLANN_INDEX_KDTREE = 0
-    index_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 3) # 5
-    search_params = dict(checks = 20) # 50
+    index_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 5) # 5
+    search_params = dict(checks = 50) # 50
 
     flann = cv2.FlannBasedMatcher(index_params, search_params)
 

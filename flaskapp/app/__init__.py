@@ -25,6 +25,7 @@ def upload_file():
             path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(path)
             match = locate.find_match(path)
+            del match["_id"]
             return jsonify(**match)
     return '''
     <!doctype html>
@@ -37,4 +38,4 @@ def upload_file():
     '''
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=80, debug = True)
+    app.run(host="0.0.0.0", port=8282, debug = True)

@@ -33,7 +33,12 @@ def download_images(name, n = 20, minx=-77.037564, miny=38.896662, maxx=-77.0355
         print("fetching", len(imurls), "images")
         for url in imurls:
             image = urllib.URLopener()
-            image.retrieve(url, dir + os.path.basename(urlparse.urlparse(url).path.encode('utf8')))
+            path = dir + os.path.basename(urlparse.urlparse(url).path.encode('utf8'))
+            try:
+                if not os.path.isfile(path):
+                    image.retrieve(url, path)
+            except:
+                print("failed to retrieve " + path)
 
         print("done fetching", len(imurls), "images")
 

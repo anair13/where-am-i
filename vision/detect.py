@@ -51,7 +51,7 @@ def get_normalized_features(filename):
     f_normalized = np.array([v/np.linalg.norm(v) for v in f[1]])
     return (f_normalized, f_normalized.T)
 
-sift = cv2.SIFT()
+sift = cv2.SIFT(500)
 
 def get_descriptors(filename):
     img = cv2.imread(filename)
