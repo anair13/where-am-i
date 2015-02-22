@@ -39,7 +39,7 @@ def upload_file():
     '''
 
 @app.route("/guide/", methods=['GET', 'POST'])
-def upload_file():
+def upload_guide_file():
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
@@ -60,4 +60,4 @@ def upload_file():
     '''
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8282, debug = True)
+    app.run(host="0.0.0.0", port=80, debug = True)
