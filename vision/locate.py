@@ -25,8 +25,8 @@ def find_match(filename):
     correlation, metaID = max(matches)
     return db.get_meta(metaID)
 
-def find_match(filename):
-    feature_iterator = db.get_all_images()
+def find_match(filename, collection=db.db.features):
+    feature_iterator = db.get_all_images(collection)
     x = detect.get_descriptors(filename)
     def get_name(id):
         return db.get_meta(id)['name']
@@ -48,5 +48,17 @@ if __name__ == "__main__":
         #         scores.append(x)
         #     scores.sort()
         #     print name, folder, scores
-        print name, print find_match(name)
+        print name, find_match(name)
+        print "---"
+    for name in glob.glob("img/*.jpg") + ["img/liberty.png"]:
+        # des1 = detect.get_descriptors(name)
+        # for folder in glob.glob("img/*/"):
+        #     scores = []
+        #     for img in glob.glob(folder + "*"):
+        #         des2 = detect.get_descriptors(img)
+        #         x = match.correlation(des1, des2)
+        #         scores.append(x)
+        #     scores.sort()
+        #     print name, folder, scores
+        print name, find_match(name, db.db.guide)
         print "---"

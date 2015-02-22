@@ -34,9 +34,7 @@ def process_landmarks():
             miny = float(row['latitude']) - error
             maxy = float(row['latitude']) + error
             filenames = source.download_images(row['name'], 10, minx, miny, maxx, maxy)
-
-            raw_input()
-
+            
             db.write_items([detect.get_descriptors(f) for f in filenames], metadata)
 
 if __name__ == "__main__":

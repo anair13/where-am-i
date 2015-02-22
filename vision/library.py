@@ -6,6 +6,7 @@ import numpy as np
 import numpy.lib.scimath as npmath
 import cv2
 import db
+import guides
 import landmarks
 
 def process_library(ims = 'library/*'):
@@ -34,4 +35,4 @@ if __name__ == "__main__":
     db.client.drop_database('localize')
     process_library()
     landmarks.process_landmarks()
-    
+    guides.process_image_dataset()

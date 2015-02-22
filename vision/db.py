@@ -7,7 +7,7 @@ db = client.localize
 features_collection = db.features # maps filenames to features and metadataID
 metadata_collection = db.metadata # stores any metadata about images (locations, captions, etc)
 
-def write_items(features, metadata):
+def write_items(features, metadata, features_collection = db.features):
     """Write features with common metadata to Mongo"""
     metadataID = metadata_collection.insert(metadata)
     for feature in features:
@@ -15,11 +15,11 @@ def write_items(features, metadata):
         feature_item = {"features": f, "metadataID": metadataID}
         features_collection.insert(feature_item)
 
-def write_item(feature_array, metadata):
-    write_items([feature_array], metadata)
+def write_item(feature_array, metadata, features_collection = db.features):
+    write_items([feature_array], metadata, features_collection)
 
-def get_all_images():
-    for x in features_collection.find():
+def get_all_images(collection = db.features):
+    for x in collection.find():
         yield pickle.loads(x['features']), x['metadataID']
 
 def get_meta(id):
