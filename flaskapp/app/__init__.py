@@ -21,7 +21,7 @@ def allowed_file(filename):
 def upload_file():
     if request.method == 'POST':
         file = request.files['file']
-        if file and allowed_file(file.filename):
+        if file and allowed_file(file.filename.lower()):
             filename = secure_filename(file.filename)
             path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(path)
@@ -42,7 +42,7 @@ def upload_file():
 def upload_guide_file():
     if request.method == 'POST':
         file = request.files['file']
-        if file and allowed_file(file.filename):
+        if file and allowed_file(file.filename.lower()):
             filename = secure_filename(file.filename)
             path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(path)
