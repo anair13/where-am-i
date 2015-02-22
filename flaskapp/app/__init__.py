@@ -1,8 +1,11 @@
 import os
 from flask import Flask, request, redirect, url_for, jsonify
 from werkzeug import secure_filename
+from scipy import ndimage, misc
+import sys
 
-sys.path.append("../../vision")
+# assumes run from flaskapp directory
+sys.path.append("../vision")
 import locate
 
 UPLOAD_FOLDER = 'app/static'
@@ -21,7 +24,9 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            match = locate.find_match(filename)
+            x = ndimage.imread(filename, 0)
+            misc.imsave("_" + filename, x)
+            match = locate.find_match("_" + filename)
             return jsonify(**match)
     return '''
     <!doctype html>
