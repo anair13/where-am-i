@@ -54,7 +54,8 @@ def get_normalized_features(filename):
 sift = cv2.SIFT()
 
 def get_descriptors(filename):
-    img = cv2.imread(filename, 0)
+    img = cv2.imread(filename)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     _, des = sift.detectAndCompute(img, None)
     return des
 
