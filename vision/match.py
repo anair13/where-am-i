@@ -10,7 +10,7 @@ def match_oneway(features_1, features_2):
     f1 = features_1
     f2 = features_2
 
-    ratio = 0.8 # higher number means more matches
+    ratio = 0.7 # higher number means more matches
     size = f1.shape[0]
 
     scores = np.zeros((size, 1), 'int')
@@ -38,8 +38,25 @@ def match(features_1, features_2):
 
     return matches_12
 
-def correlation(features_1, features_2):
+def _correlation(features_1, features_2):
     return sum(match(features_1, features_2) > 0)
+
+def correlation(des1, des2):
+    FLANN_INDEX_KDTREE = 0
+    index_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 3) # 5
+    search_params = dict(checks = 20) # 50
+
+    flann = cv2.FlannBasedMatcher(index_params, search_params)
+
+    matches = flann.knnMatch(des1,des2,k=2)
+
+    # store all the good matches as per Lowe's ratio test.
+    good = []
+    for m,n in matches:
+        if m.distance < 0.7*n.distance:
+            good.append(m)
+
+    return len(good)
 
 def get_normalized_features(filename):
     f = detect.get_features(filename)
@@ -57,4 +74,4 @@ if __name__ == "__main__":
 
     for i in range(len(norm_features)):
         for j in range(i, len(norm_features)):
-            print names[i], names[j], correlation(norm_features[i], norm_features[j])
+            print names[i], names[j], _correlation(norm_features[i], norm_features[j])

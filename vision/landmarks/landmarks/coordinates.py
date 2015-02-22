@@ -5,10 +5,10 @@ def degMinSecCoordsToDecimalLat(coordinate_string):
 
 	latitude = float(list_of_coordinate_elements[0][1:])
 
+	latitude += (float(list_of_coordinate_elements[1])/60) + (float(list_of_coordinate_elements[2])/3600)
+
 	if list_of_coordinate_elements[0][0] == "S":
 		latitude = latitude * -1
-
-	latitude += (float(list_of_coordinate_elements[1])/60) + (float(list_of_coordinate_elements[2])/3600)
 
 	return latitude
 
@@ -17,10 +17,10 @@ def degMinSecCoordsToDecimalLong(coordinate_string):
 
 	longitude = float(list_of_coordinate_elements[3][1:])
 
+	longitude += (float(list_of_coordinate_elements[4])/60) + (float(list_of_coordinate_elements[5])/3600)
+
 	if list_of_coordinate_elements[3][0] == "W":
 		longitude = longitude * -1
-
-	longitude += (float(list_of_coordinate_elements[4])/60) + (float(list_of_coordinate_elements[5])/3600)
 
 	return longitude
 	

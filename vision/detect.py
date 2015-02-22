@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 def find_features(img, hessian_threshold=500):
     """Given a gray OpenCV image (such as from imread) return a list
@@ -28,7 +29,7 @@ def display_features(img, kp):
     cv2.waitKey(0)
     cv2.destroyWindow("Feature Keypoints")
 
-def get_features(filename, hessian_threshold=500, sx=1, sy=1):
+def get_features(filename, hessian_threshold=500, sx=0.5, sy=0.5):
     """Loads an image from <filename>, performs preprocessing,
     and calls find_features() on it to retrieve features
     Preprocessing involves converting to grayscale and resizing
@@ -44,6 +45,18 @@ def get_features(filename, hessian_threshold=500, sx=1, sy=1):
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     resized_img = cv2.resize(gray, None, fx=sx, fy=sy, interpolation=cv2.INTER_NEAREST)
     return find_features(resized_img)
+
+def get_normalized_features(filename):
+    f = get_features(filename)
+    f_normalized = np.array([v/np.linalg.norm(v) for v in f[1]])
+    return (f_normalized, f_normalized.T)
+
+sift = cv2.SIFT()
+
+def get_descriptors(filename):
+    img = cv2.imread(filename, 0)
+    _, des = sift.detectAndCompute(img, None)
+    return des
 
 if __name__ == "__main__":
     img = cv2.imread("img/test.jpg")

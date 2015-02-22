@@ -22,22 +22,25 @@ def download_images(name, n = 20, minx=-77.037564, miny=38.896662, maxx=-77.0355
     for im in j['photos']:
         imurls.append(im['photo_file_url'])
 
-    # ensure directory exists
-    dir = "img/" + name + "/"
-    d = os.path.dirname(dir)
-    if not os.path.exists(d):
-        os.makedirs(d)
+    if imurls:
+        # ensure directory exists
+        dir = "img/" + name + "/"
+        d = os.path.dirname(dir)
+        if not os.path.exists(d):
+            os.makedirs(d)
 
-    # download images
-    print("fetching", len(imurls), "images")
-    for url in imurls:
-        image = urllib.URLopener()
-        image.retrieve(url, dir + os.path.basename(urlparse.urlparse(url).path))
-        # print 'downloading:', url
+        # download images
+        print("fetching", len(imurls), "images")
+        for url in imurls:
+            image = urllib.URLopener()
+            image.retrieve(url, dir + os.path.basename(urlparse.urlparse(url).path.encode('utf8')))
 
-    print("done fetching", len(imurls), "images")
+        print("done fetching", len(imurls), "images")
 
-    return [dir + file for file in os.listdir(dir)]
+        return [dir + file for file in os.listdir(dir)]
+    else:
+        print("no images found")
+        return []
 
 def get_images(name):
     """Returns list of filenames"""

@@ -6,6 +6,7 @@ import numpy as np
 import numpy.lib.scimath as npmath
 import cv2
 import db
+import landmarks
 
 def process_library(ims = 'library/*'):
     image_names = glob.glob(ims) # assume locations are encoded in these image filenames
@@ -22,7 +23,15 @@ def process_library(ims = 'library/*'):
         metadata = {"name": name}
         db.write_item(feature, metadata)
 
-if __name__ == "__main__":
-    process_library()
+def process_library(ims = 'library/*'):
+    image_names = glob.glob(ims) # assume locations are encoded in these image filenames
 
+    for name in image_names:
+        metadata = {"name": name}
+        db.write_item(detect.get_descriptors(name), metadata)
+
+if __name__ == "__main__":
+    db.client.drop_database('localize')
+    process_library()
+    landmarks.process_landmarks()
     
